@@ -32,11 +32,9 @@ $(function() {
          * and that the URL is not empty.
          */
          it('url defined for each feed', function() {
-             for (let i = 0; i < allFeeds.length; i++) {
-                 expect(allFeeds[i].url).toBeDefined();
-                 expect(allFeeds[i].url.length).toBeGreaterThan(0);
-             }
-
+             allFeeds.forEach(function(feed) {
+                 expect(feed.url).toBeTruthy();
+             });
          });
 
         /* This test loops through each feed
@@ -44,10 +42,9 @@ $(function() {
          * and that the name is not empty.
          */
          it('name defined for each feed', function() {
-             for (let i = 0; i < allFeeds.length; i++) {
-                 expect(allFeeds[i].name).toBeDefined();
-                 expect(allFeeds[i].name.length).toBeGreaterThan(0);
-             }
+             allFeeds.forEach(function(feed) {
+                 expect(feed.name).toBeTruthy();
+             });
          });
 
     });
@@ -76,10 +73,10 @@ $(function() {
           * programmatically. This is done using jQuery's trigger function
           */
          it('menu changes visibility when menu icon is clicked', function() {
-             $('.menu-icon-link>.icon-list').trigger('click');
+             $('.menu-icon-link').trigger('click');
              expect($('body').hasClass('menu-hidden')).toBeFalsy();
 
-             $('.menu-icon-link>.icon-list').trigger('click');
+             $('.menu-icon-link').trigger('click');
              expect($('body').hasClass('menu-hidden')).toBeTruthy();
          });
     });
@@ -99,7 +96,7 @@ $(function() {
         });
 
         it('Async: loadFeed loads the entry element into feed container', function() {
-            expect($('.feed .entry').children().length).toBeGreaterThan(0);
+            expect($('.feed .entry').length).toBeGreaterThan(0);
         });
     });
 
@@ -123,13 +120,10 @@ $(function() {
                     done();
                 });
             });
-
-
         });
 
         it('Async: content changes after feed is loaded', function() {
             expect(after).not.toEqual(before);
         });
-
     });
 }());
