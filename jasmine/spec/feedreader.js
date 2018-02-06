@@ -65,7 +65,7 @@ $(function() {
          * body element has menu-hidden class
          */
         it ('menu element hidden by default', function() {
-            expect($('body').hasClass('menu-hidden')).toBe(true);
+            expect($('body').hasClass('menu-hidden')).toBeTruthy();
         });
 
          /* This test that ensures the menu changes
@@ -77,10 +77,10 @@ $(function() {
           */
          it('menu changes visibility when menu icon is clicked', function() {
              $('.menu-icon-link>.icon-list').trigger('click');
-             expect($('body').hasClass('menu-hidden')).toBe(false);
+             expect($('body').hasClass('menu-hidden')).toBeFalsy();
 
              $('.menu-icon-link>.icon-list').trigger('click');
-             expect($('body').hasClass('menu-hidden')).toBe(true);
+             expect($('body').hasClass('menu-hidden')).toBeTruthy();
          });
     });
 
@@ -95,13 +95,11 @@ $(function() {
          * the use of Jasmine's beforeEach and asynchronous done() function.
          */
         beforeEach(function(done) {
-            // console.log(1);
             loadFeed(0, done);
         });
 
         it('Async: loadFeed loads the entry element into feed container', function() {
-            // console.log(2);
-            expect($('.feed').children().length).toBeGreaterThan(0);
+            expect($('.feed .entry').children().length).toBeGreaterThan(0);
         });
     });
 
@@ -119,20 +117,17 @@ $(function() {
         let before = null, after = null;
         beforeEach(function(done) {
             loadFeed(1, function() {
-                console.log(3);
                 before = $('.feed').html();
-                done();
+                loadFeed(2, function() {
+                    after = $('.feed').html();
+                    done();
+                });
             });
 
-            loadFeed(2, function() {
-                console.log(2);
-                after = $('.feed').html();
-                done();
-            });
+
         });
 
         it('Async: content changes after feed is loaded', function() {
-            console.log(1);
             expect(after).not.toEqual(before);
         });
 
